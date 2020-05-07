@@ -229,11 +229,20 @@ public class TestCtrl {
         return map1;
     }
 
-    private void putAllHeaders(HttpServletRequest httpServletRequest, Map<String, Object> map) {
+    public static Map<String, Object> putAllHeaders(HttpServletRequest httpServletRequest) {
+        return putAllHeaders(httpServletRequest, null, "");
+    }
+
+    public static void putAllHeaders(HttpServletRequest httpServletRequest, Map<String, Object> map) {
         putAllHeaders(httpServletRequest, map, "");
     }
 
-    private void putAllHeaders(HttpServletRequest httpServletRequest, Map<String, Object> map, Object requestBody) {
+    public static Map<String, Object> putAllHeaders(HttpServletRequest httpServletRequest, Map<String, Object> map,
+                                                    Object requestBody) {
+        if (map == null) {
+            map = new HashMap<>();
+        }
+
         Map<String, Object> headers = new HashMap<>(8);
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -251,6 +260,7 @@ public class TestCtrl {
         map.put("parameters", parameters);
 
         map.put("body", requestBody);
+        return map;
     }
 
 

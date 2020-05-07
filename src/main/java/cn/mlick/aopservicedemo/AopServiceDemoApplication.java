@@ -40,14 +40,12 @@ public class AopServiceDemoApplication implements ApplicationRunner, Application
 
         try {
             Runtime.getRuntime().exec("cmd   /c   start   " + url);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
         try {
             Runtime.getRuntime().exec("cmd   /c   start   " + url + "swagger-ui.html");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
     }
