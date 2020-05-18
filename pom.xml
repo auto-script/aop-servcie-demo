@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.mlick</groupId>
     <artifactId>aop-service-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>aop-service-demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -45,6 +45,26 @@
             <artifactId>swagger-spring-boot-starter</artifactId>
             <version>1.7.1.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
+        </dependency>
+
 
     </dependencies>
 
