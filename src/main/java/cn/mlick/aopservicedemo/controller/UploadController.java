@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Controller
-@RequestMapping("upload")
+@RequestMapping("/upload")
 public class UploadController {
 
     @RequestMapping("/file")
@@ -93,14 +94,15 @@ public class UploadController {
 
     @RequestMapping("/file/download")
     @ResponseBody
-    public ResponseEntity<byte[]> uploadAndDownload(MultipartHttpServletRequest multipartRequest,
+    public ResponseEntity<byte[]> uploadAndDownload(@RequestBody(required = false) Map<String, String> map1,
+                                                    MultipartHttpServletRequest multipartRequest,
                                                     HttpServletResponse response) throws IOException {
         //获取前台传值
         multipartRequest.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        Map<String, Object> map = TestCtrl.putAllHeaders(multipartRequest);
+        Map<String, Object> map = TestCtrl.putAllHeaders(multipartRequest, null, map1);
 
 
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
@@ -122,6 +124,7 @@ public class UploadController {
 
         String path = ctxPath;
         String responseStr;
+        File uploadFile = null;
         for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
             // 上传文件名
             MultipartFile mf = entity.getValue();
@@ -137,7 +140,7 @@ public class UploadController {
             // 构成新文件名
             String newFileName = strEnc + "-" + fileName;
 
-            File uploadFile = new File(ctxPath + newFileName);
+            uploadFile = new File(ctxPath + newFileName);
 
             try {
                 FileCopyUtils.copy(bytes, uploadFile);
@@ -152,8 +155,13 @@ public class UploadController {
             map.put("upload-status-" + mf.getName(), responseStr);
         }
 
+        if (uploadFile == null) {
+            map.put("upload-file", "文件流上传失败");
+            return null;
+        }
+
         byte[] body;
-        InputStream is = new FileInputStream(file);
+        InputStream is = new FileInputStream(uploadFile);
         body = new byte[is.available()];
         try {
             int read = is.read(body);

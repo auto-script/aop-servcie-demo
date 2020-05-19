@@ -1,6 +1,7 @@
 package cn.mlick.aopservicedemo.controller;
 
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletInputStream;
@@ -240,7 +241,7 @@ public class TestCtrl {
     public static Map<String, Object> putAllHeaders(HttpServletRequest httpServletRequest, Map<String, Object> map,
                                                     Object requestBody) {
         if (map == null) {
-            map = new HashMap<>();
+            map = new HashMap<>(6);
         }
 
         Map<String, Object> headers = new HashMap<>(8);
