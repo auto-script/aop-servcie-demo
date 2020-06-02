@@ -94,15 +94,14 @@ public class UploadController {
 
     @RequestMapping("/file/download")
     @ResponseBody
-    public ResponseEntity<byte[]> uploadAndDownload(@RequestBody(required = false) Map<String, String> map1,
-                                                    MultipartHttpServletRequest multipartRequest,
+    public ResponseEntity<byte[]> uploadAndDownload(MultipartHttpServletRequest multipartRequest,
                                                     HttpServletResponse response) throws IOException {
         //获取前台传值
         multipartRequest.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        Map<String, Object> map = TestCtrl.putAllHeaders(multipartRequest, null, map1);
+        Map<String, Object> map = TestCtrl.putAllHeaders(multipartRequest);
 
 
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();

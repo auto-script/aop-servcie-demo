@@ -7,8 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.boot.web.server.WebServer;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.util.unit.DataSize;
 
+import javax.servlet.MultipartConfigElement;
+import java.io.File;
 import java.io.IOException;
 
 @SpringBootApplication
@@ -57,4 +62,20 @@ public class AopServiceDemoApplication implements ApplicationRunner, Application
         System.out.println(webServer.getPort());
 
     }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(DataSize.parse("800MB"));
+        factory.setMaxRequestSize(DataSize.parse("800MB"));
+        String location = System.getProperty("user.dir") + "/data/tmp";
+        File tmpFile = new File(location);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdirs();
+        }
+        factory.setLocation(location);
+        return factory.createMultipartConfig();
+    }
+
+
 }
