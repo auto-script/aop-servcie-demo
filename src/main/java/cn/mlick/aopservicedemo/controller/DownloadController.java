@@ -36,7 +36,6 @@ public class DownloadController {
     public ResponseEntity<byte[]> download(@PathVariable String date,
                                            @PathVariable String fileName,
                                            HttpServletRequest request) throws IOException {
-        System.out.println(TestCtrl.putAllHeaders(request));
 
         File file = new File("/data/file/" + date + "/" + fileName);
         byte[] body;
